@@ -1,0 +1,26 @@
+html, body {
+    height: 100%;
+
+}
+
+body {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container-container {
+    display:flex;
+    justify-content: center;
+    gap: 200px;
+}
+
+.grid-container {
+    display: grid;
+    box-sizing: border-box;
+    grid-template-rows: repeat(10, 1fr);
+    grid-template-columns: repeat(10, 1fr);
+    height: 500px;
+    width: 500px;
+}
+
