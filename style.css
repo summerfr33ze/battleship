@@ -6,7 +6,8 @@ html, body {
 body {
     display:flex;
     flex-direction: column;
-    justify-content: space-around;
+
+    align-items: center;
 }
 
 .container-container {
@@ -15,12 +16,27 @@ body {
     gap: 200px;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2rem;
+}
+
+
 .grid-container {
     display: grid;
     box-sizing: border-box;
+    border: 1px solid black;
     grid-template-rows: repeat(10, 1fr);
     grid-template-columns: repeat(10, 1fr);
     height: 500px;
     width: 500px;
 }
 
+.cell {
+    border: 1px solid black;
+    box-sizing: border-box;
+    height: 50px;
+    width: 50px;
+}

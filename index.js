@@ -1,32 +1,25 @@
-import Gameboard from './gameboard.js'
-import Ship from './ship.js'
-import Player from './player.js'
+
 
 const playerGrid = document.querySelector("#player")
 const computerGrid = document.querySelector("#computer")
 const input = document.querySelector("input")
 const submit = document.querySelector("submit")
-const shipTypes= document.querySelector("")
+const shipTypes = document.querySelector(".ship-types")
 
-let human = new Player
-let computer = new Player
-human.gameboard = new Gameboard
-computer.gameboard = new Gameboard
 
-submit.addEventListener('click', (event) => {
-    event.preventDefault()
 
-})
 
-function createGrid(){
+function createGrids(){
     for (i=1; i <= 100; i++){
-        const cell = document.createElement("div");
-        cell.className = "cell";
-        cell.dataset.index = i
-        playerGrid.appendChild("cell")
-        computerGrid.appendChild("cell")
-        cell.style.border = "1px solid black"
-        cell.style.boxSizing = "border-box"
+        const compCell = document.createElement("div");
+        const playerCell = document.createElement("div")
+        compCell.className = "cell";
+        playerCell.className = "cell";
+        compCell.dataset.index = i
+        playerCell.dataset.index = i
+        playerGrid.appendChild(playerCell)
+        computerGrid.appendChild(compCell)
     }
 }
 
+createGrids()
