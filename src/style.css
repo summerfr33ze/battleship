@@ -34,7 +34,7 @@ body {
     width: 500px;
 }
 
-.cell {
+.player-cell, .comp-cell {
     border: 1px solid black;
     box-sizing: border-box;
     height: 50px;

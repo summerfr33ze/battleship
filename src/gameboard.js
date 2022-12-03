@@ -18,7 +18,7 @@ class Gameboard {
             let y = ship.position[1][1]
             let count = 0
 
-        //check if 
+        
         for (let i=1; i <= ship.length; i++) {
             if (a === x ){
                 if (this.grid[a][b] = "_"){
