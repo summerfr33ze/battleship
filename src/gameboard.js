@@ -16,30 +16,8 @@ class Gameboard {
             let b = ship.position[0][1]
             let x = ship.position[1][0]
             let y = ship.position[1][1]
-            let count = 0
+           
 
-        
-        for (let i=1; i <= ship.length; i++) {
-            if (a === x ){
-                if (this.grid[a][b] = "_"){
-                    count++
-                }
-
-                b++
-                }
-    
-                else if (b === y){
-                if  (this.grid[a][b] = "_"){
-                    count++
-                }
-                a++
-                }
-
-                else {return false}
-    
-        }
-
-        if (count === ship.length){
         for(let i = 1; i <= ship.length; i++){
             if (a === x ){
             this.grid[a][b] = "x"
@@ -51,15 +29,12 @@ class Gameboard {
             a++
             }
 
-            else return 
 
+            else return 
         }
         return this.grid[a][b-1]
-        }
-        else {
-            return false
-        }
     }
+        
 
     receiveAttack(x,y){
         if (this.grid[x][y] !== undefined){
