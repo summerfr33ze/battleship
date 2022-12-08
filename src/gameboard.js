@@ -1,3 +1,7 @@
+import { computerGameboard } from "./index.js"
+import { humanGameboard } from "./index.js"
+import { computerShipArray } from "./index.js"
+
 
 class Gameboard {
     constructor(){
@@ -38,7 +42,9 @@ class Gameboard {
 
     receiveAttack(x,y){
         if (this.grid[x][y] !== undefined){
-            this.shipArray.forEach(ship => {
+
+        if (this === computerGameboard)
+            computerShipArray.forEach(ship => {
                 const a = ship.position[0][0]
                 const b = ship.position[0][1]
                 const c = ship.position[1][0]
@@ -65,6 +71,36 @@ class Gameboard {
             
             this.grid[x][y] = "o"
         }
+
+        else if (this === humanGameboard) {
+            playerShipArray.forEach(ship => {
+                const a = ship.position[0][0]
+                const b = ship.position[0][1]
+                const c = ship.position[1][0]
+                const d = ship.position[1][1]
+                if (a === c){
+                    if (x === a && y >= b && y <= d){
+                        ship.hit()
+                        ship.sink()
+                    
+                    }
+                    else return
+                }
+                else if (b === d){
+                    if (y === b && x >= a && x <= c){
+                        ship.hit()
+                        ship.sink()
+                        
+                    }
+                    else return
+                }
+               
+                
+            })
+            
+            this.grid[x][y] = "o"
+        }
+        
 
         else return false
         

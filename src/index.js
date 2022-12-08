@@ -2,28 +2,40 @@ import Gameboard from './gameboard.js'
 import Ship from './ship.js'
 import './style.css' 
 
+
+// dom methods to refer to html elements like the grids
 const playerGrid = document.querySelector("#player")
 const computerGrid = document.querySelector("#computer")
-const input = document.querySelector("input")
-const submit = document.querySelector("submit")
-const shipTypes = document.querySelector(".ship-types")
+const displayWinner = document.querySelector(".display-winner")
 
-let carrier = new Ship(5)
-let battleship = new Ship(4)
-let cruiser = new Ship(3)
-let submarine = new Ship(3)
-let destroyer = new Ship(2)
+//ship objects created with imported ship class
 
-let shipArray = [carrier,battleship,cruiser,submarine,destroyer]
+let playerCarrier = new Ship(5)
+let playerBattleship = new Ship(4)
+let playerCruiser = new Ship(3)
+let playerSubmarine = new Ship(3)
+let playerDestroyer = new Ship(2)
+
+let computerCarrier = new Ship(5)
+let computerBattleship = new Ship(4)
+let computerCruiser = new Ship(3)
+let computerSubmarine = new Ship(3)
+let computerDestroyer = new Ship(2)
+
+//arrays to store ships in and various variables to store current state of game
+
+let playerShipArray = [playerCarrier,playerBattleship,playerCruiser,playerSubmarine,playerDestroyer]
+export let computerShipArray = [computerCarrier,computerBattleship,computerCruiser,computerSubmarine,computerDestroyer]
 let n = 0
-let currentPlayerShip = shipArray[n]
+let currentPlayerShip = playerShipArray[n]
 let currentComputerShip
 let currentPlayerIndex
 let currentComputerIndex
 export let humanGameboard = new Gameboard
-let computerGameboard = new Gameboard
+export let computerGameboard = new Gameboard
 
 
+// make the grid interface and handle drag and drop behavior
 
 function createGrids(){
     for (let i=0; i < 100; i++){
@@ -64,7 +76,7 @@ function createGrids(){
             if(n < 4){
             n += 1
             }
-            currentPlayerShip = shipArray[n]
+            currentPlayerShip = playerShipArray[n]
             playerCell.removeEventListener("mouseout", handleMouseOut)
             const cells = document.querySelectorAll(".player-cell")
             cells.forEach(cell => {
@@ -79,6 +91,8 @@ function createGrids(){
             
     }) 
 
+    //handle player moves (computer moves right after player)
+
     compCell.addEventListener("click", () => {
       
         if(compCell.dataset.isShip){
@@ -91,6 +105,7 @@ function createGrids(){
         let y = Math.floor(compCell.dataset.index / 10)
         computerGameboard.receiveAttack(x,y)
         
+        endGame()
         computerMove()
     })
 
@@ -99,9 +114,10 @@ function createGrids(){
     }
 }
 
+
 function randomizeComputerShips(){
-    for(let i=0;i < shipArray.length; i++){
-        currentComputerShip = shipArray[i]
+    for(let i=0;i < computerShipArray.length; i++){
+        currentComputerShip = computerShipArray[i]
         let shipPosition = positionShip(currentComputerShip)
         placesComputerShip(shipPosition)
         const cells = document.querySelectorAll(".comp-cell")
@@ -112,6 +128,8 @@ function randomizeComputerShips(){
         })
     }
 }
+
+// computer keeps choosing random numbers until it can find  a spot where it can place a ship that doesn't overlap other ships or the edge
 
 function positionShip (currentComputerShip) {
     currentComputerIndex = Math.floor(Math.random() * 100)
@@ -153,6 +171,8 @@ export function placesPlayerShip(){
 
 }
 
+
+
 function placesComputerShip(shipPosition){
     let a = shipPosition % 10
     let b = Math.floor(shipPosition/10)
@@ -183,6 +203,38 @@ function computerMove(){
     let x = target % 10
     let y = Math.floor(target / 10)
     humanGameboard.receiveAttack(x,y)
+    endGame()
+}
+
+function endGame(){
+
+    let playerCount = 0
+    let computerCount = 0
+
+playerShipArray.forEach(ship => {
+    if(ship.isSunk){
+        computerCount++
+    }
+    else return
+})
+
+computerShipArray.forEach(ship => {
+    if(ship.isSunk){
+        playerCount++
+    }
+    else return
+})
+
+if (playerCount == 5){
+    displayWinner.textContent = "Player Wins"
+
+}
+
+else if (computerCount == 5){
+    displayWinner.textContent = "Computer Wins"
+}
+
+
 }
 
 
