@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'space-cruiser';
+    src: url('./Spacec5.ttf');
+
+}
+
 html, body {
     height: 100%;
 
@@ -6,8 +12,35 @@ html, body {
 body {
     display:flex;
     flex-direction: column;
-
+    justify-content: center;
+    background-color: navy;
     align-items: center;
+}
+
+.heading-container {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 5rem;
+    font-family: 'space-cruiser';
+    background-color: cyan;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 10vh;
+}
+
+.player-text {
+    font-size: 3rem;
+    padding: 25px 40px 25px 40px;
+    background-color: rgb(247, 46, 46);
+    border-radius: 15px;
+    font-weight: bold;
+    border: 2px solid black;
+    font-family: 'space-cruiser';
+    font-weight: lighter;
+    margin-top: 5vh;
 }
 
 .container-container {
@@ -21,6 +54,8 @@ body {
     flex-direction: column;
     align-items: center;
     font-size: 2rem;
+    color: black;
+   
 }
 
 
@@ -28,10 +63,14 @@ body {
     display: grid;
     box-sizing: border-box;
     border: 1px solid black;
+    border-radius: 10px;
     grid-template-rows: repeat(10, 1fr);
     grid-template-columns: repeat(10, 1fr);
     height: 500px;
     width: 500px;
+    background-color: white;
+    margin-top: 100px; 
+
 }
 
 .player-cell, .comp-cell {
@@ -39,4 +78,9 @@ body {
     box-sizing: border-box;
     height: 50px;
     width: 50px;
+}
+
+.display-winner {
+    font-size: 3rem;
+    margin-top: 20vh;
 }

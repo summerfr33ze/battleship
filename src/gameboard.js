@@ -20,6 +20,8 @@ class Gameboard {
             let b = ship.position[0][1]
             let x = ship.position[1][0]
             let y = ship.position[1][1]
+
+            
            
 
         for(let i = 1; i <= ship.length; i++){

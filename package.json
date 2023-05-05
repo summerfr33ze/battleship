@@ -4,14 +4,17 @@
     "css-loader": "^6.7.2",
     "jest": "^29.3.1",
     "style-loader": "^3.3.1",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.0"
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.0.2"
   },
   "scripts": {
     "test": "jest"
-
   },
   "dependencies": {
-    "npm-watch": "^0.11.0"
+    "npm-watch": "^0.11.0",
+    "watch": "watch 'npx webpack' ./directory-you-want-to-track"
+  
   }
+
+  
 }

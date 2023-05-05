@@ -26,13 +26,14 @@ let computerDestroyer = new Ship(2)
 
 let playerShipArray = [playerCarrier,playerBattleship,playerCruiser,playerSubmarine,playerDestroyer]
 export let computerShipArray = [computerCarrier,computerBattleship,computerCruiser,computerSubmarine,computerDestroyer]
-let n = 0
-let currentPlayerShip = playerShipArray[n]
+let numberOfShips = 0
+let currentPlayerShip = playerShipArray[numberOfShips]
 let currentComputerShip
 let currentPlayerIndex
 let currentComputerIndex
 export let humanGameboard = new Gameboard
 export let computerGameboard = new Gameboard
+
 
 
 // make the grid interface and handle drag and drop behavior
@@ -48,7 +49,7 @@ function createGrids(){
         playerCell.addEventListener("mouseover", () => {
             const cells = document.querySelectorAll(".player-cell")
             cells.forEach(cell => {
-                if (cell.dataset.index >= i && cell.dataset.index < i + currentPlayerShip.length){
+                if (currentPlayerShip && cell.dataset.index >= i && cell.dataset.index < i + currentPlayerShip.length){
                     currentPlayerIndex = i
 
                     cell.style.backgroundColor = "black"
@@ -59,32 +60,39 @@ function createGrids(){
         playerCell.addEventListener("mouseout", handleMouseOut)
 
        playerCell.addEventListener("click", () => {
-            let count = 0
+            let otherShip = false
             const cells = document.querySelectorAll(".player-cell")
             cells.forEach(cell => {
-                if (cell.dataset.index >= currentPlayerIndex && cell.dataset.index <= currentPlayerIndex + currentPlayerShip.length && cell.dataset.isShip){
-                    count++
+                if (cell.dataset.index >= currentPlayerIndex && cell.dataset.index < currentPlayerIndex + currentPlayerShip.length && cell.dataset.isShip){
+                    otherShip = true
                 }
             })
 
-
-
-            
-
-            if (count === 0) {
+            if (otherShip === false) {
             placesPlayerShip()
-            if(n < 4){
-            n += 1
-            }
-            currentPlayerShip = playerShipArray[n]
             playerCell.removeEventListener("mouseout", handleMouseOut)
             const cells = document.querySelectorAll(".player-cell")
             cells.forEach(cell => {
                 
-                if (cell.dataset.index >= currentPlayerIndex && cell.dataset.index <= currentPlayerIndex + currentPlayerShip.length){
+                if (cell.dataset.index >= currentPlayerIndex && cell.dataset.index < currentPlayerIndex + currentPlayerShip.length){
                     cell.dataset.isShip = true
+                    if (currentPlayerShip.length === 2){
+                        currentPlayerShip = false
+                    }
                 }
             })
+
+            if(numberOfShips < 4){
+                numberOfShips += 1
+                console.log(numberOfShips)
+                }
+            
+            if(currentPlayerShip){
+                currentPlayerShip = computerShipArray[numberOfShips]
+                console.log(currentPlayerShip)
+            }
+            
+
         }
 
         
@@ -148,12 +156,13 @@ function positionShip (currentComputerShip) {
 }
 
 
+
 function handleMouseOut() {
     
     const cells = document.querySelectorAll(".player-cell")
             cells.forEach(cell => {
                 
-                if ((cell.dataset.index >= currentPlayerIndex && cell.dataset.index < currentPlayerIndex + currentPlayerShip.length) && (!cell.dataset.isShip === true)){
+                if ((cell.dataset.index >= currentPlayerIndex && cell.dataset.index < currentPlayerIndex + currentPlayerShip.length) && (!cell.dataset.isShip)){
                     cell.style.backgroundColor = "white"
                 }
             })
