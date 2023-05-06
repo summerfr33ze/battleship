@@ -33,6 +33,7 @@ let currentPlayerIndex
 let currentComputerIndex
 export let humanGameboard = new Gameboard
 export let computerGameboard = new Gameboard
+let isHorizontal = true
 
 
 
@@ -42,6 +43,7 @@ function createGrids(){
     for (let i=0; i < 100; i++){
         const compCell = document.createElement("div");
         const playerCell = document.createElement("div")
+        const upperBound = i + 10 - (i % 10) - 1
         compCell.className = "comp-cell";
         playerCell.className = "player-cell";
         compCell.dataset.index = i
@@ -51,11 +53,20 @@ function createGrids(){
             cells.forEach(cell => {
                 if (currentPlayerShip && cell.dataset.index >= i && cell.dataset.index < i + currentPlayerShip.length){
                     currentPlayerIndex = i
-
-                    cell.style.backgroundColor = "black"
+                    if(currentPlayerIndex + currentPlayerShip.length  <= upperBound){
+                        cell.style.backgroundColor = "black"
+                    }
                 }
 
             })
+            if (currentPlayerShip && !(i + currentPlayerShip.length  <= upperBound)){
+                cells.forEach(cell => {
+                    if (cell.dataset.index > upperBound - currentPlayerShip.length && cell.dataset.index <= upperBound){
+                        cell.style.backgroundColor = "black"
+
+                    }
+                })
+            }
         })
         playerCell.addEventListener("mouseout", handleMouseOut)
 
@@ -70,29 +81,27 @@ function createGrids(){
 
             if (otherShip === false) {
             placesPlayerShip()
-            playerCell.removeEventListener("mouseout", handleMouseOut)
+            
             const cells = document.querySelectorAll(".player-cell")
             cells.forEach(cell => {
                 
                 if (cell.dataset.index >= currentPlayerIndex && cell.dataset.index < currentPlayerIndex + currentPlayerShip.length){
                     cell.dataset.isShip = true
-                    if (currentPlayerShip.length === 2){
-                        currentPlayerShip = false
-                    }
                 }
             })
 
+            if(currentPlayerShip.length === 2){
+                currentPlayerShip = false                        
+            }
+
             if(numberOfShips < 4){
                 numberOfShips += 1
-                console.log(numberOfShips)
                 }
             
             if(currentPlayerShip){
-                currentPlayerShip = computerShipArray[numberOfShips]
-                console.log(currentPlayerShip)
+                currentPlayerShip = playerShipArray[numberOfShips]
+                
             }
-            
-
         }
 
         
@@ -158,11 +167,13 @@ function positionShip (currentComputerShip) {
 
 
 function handleMouseOut() {
-    
     const cells = document.querySelectorAll(".player-cell")
+    
+    
             cells.forEach(cell => {
                 
-                if ((cell.dataset.index >= currentPlayerIndex && cell.dataset.index < currentPlayerIndex + currentPlayerShip.length) && (!cell.dataset.isShip)){
+                
+                if (!cell.dataset.isShip){
                     cell.style.backgroundColor = "white"
                 }
             })
@@ -179,8 +190,6 @@ export function placesPlayerShip(){
     humanGameboard.placeShip(currentPlayerShip)
 
 }
-
-
 
 function placesComputerShip(shipPosition){
     let a = shipPosition % 10
