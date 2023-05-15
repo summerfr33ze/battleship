@@ -43,6 +43,7 @@ class Gameboard {
         
 
     receiveAttack(x,y){
+        
         if (this.grid[x][y] !== undefined){
 
         if (this === computerGameboard)

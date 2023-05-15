@@ -19,9 +19,6 @@ class Player {
             let y = Math.floor(target.dataset.index / 10)
             human.gameboard.receiveAttack(x,y)
         }
-        else if (this.player === human){
-            
-        }
     }
     
 }
