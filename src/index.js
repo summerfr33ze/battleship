@@ -199,8 +199,22 @@ function createGrids(){
 function randomizeComputerShips(){
     for(let i=0;i < computerShipArray.length; i++){
         currentComputerShip = computerShipArray[i]
-        let shipPosition = positionShip(currentComputerShip)
-        placesComputerShip(shipPosition)
+
+        let randomNumber = Math.random()
+        let shipOrientation
+        if (randomNumber > .5){
+            console.log(randomNumber)
+            shipOrientation = "horizontal"
+        }
+        else {
+    
+            shipOrientation = "vertical"
+        }
+
+        let shipPosition = positionShip(currentComputerShip, shipOrientation)
+
+        placesComputerShip(shipPosition, shipOrientation)
+
         const cells = document.querySelectorAll(".comp-cell")
         cells.forEach(cell => {
             if (cell.dataset.index >= shipPosition && cell.dataset.index < shipPosition + currentComputerShip.length){
@@ -212,21 +226,47 @@ function randomizeComputerShips(){
 
 // computer keeps choosing random numbers until it can find  a spot where it can place a ship that doesn't overlap other ships or the edge
 
-function positionShip (currentComputerShip) {
+function positionShip (currentComputerShip, shipOrientation) {
+    
+
     currentComputerIndex = Math.floor(Math.random() * 100)
-    let shipOrientation = Math.random()
+
     let cellsAreEmpty = true
     const cells = document.querySelectorAll(".comp-cell")
-    cells.forEach(cell => {
-        if (cell.dataset.index >= currentComputerIndex && cell.dataset.index <= currentComputerIndex + currentComputerShip.length && cell.dataset.isShip){
-            cellsAreEmpty = false
-        }
-    })
 
-    if (currentComputerIndex + currentComputerShip.length < (currentComputerIndex + 10) - (currentComputerIndex % 10) && cellsAreEmpty) {
-        return currentComputerIndex
+    
+
+    if(shipOrientation === "vertical"){
+
+        cells.forEach(cell => {
+            let currentCell = cell.dataset.index
+
+            
+            if(currentCell % 10 === currentComputerIndex % 10 && currentCell >= currentComputerIndex && currentCell < currentComputerIndex + (currentComputerShip.length * 10 ) && cell.dataset.isShip){
+                cellsAreEmpty = false
+            }
+        })
+
+        if (currentComputerIndex + ((currentComputerShip.length - 1) * 10) <= 90 + (currentComputerIndex % 10) && cellsAreEmpty){
+            return currentComputerIndex
+        }
     }
-    return positionShip(currentComputerShip)
+
+    if(shipOrientation === "horizontal"){
+        cells.forEach(cell => {
+            let currentCell = cell.dataset.index
+            if (currentCell >= currentComputerIndex && currentCell < currentComputerIndex + currentComputerShip.length && cell.dataset.isShip){
+                cellsAreEmpty = false
+            }
+        })
+    
+        if (currentComputerIndex + currentComputerShip.length < (currentComputerIndex + 10) - (currentComputerIndex % 10) && cellsAreEmpty) {
+            return currentComputerIndex
+        }
+    }
+
+
+    return positionShip(currentComputerShip, shipOrientation)
 }
 
 
@@ -263,13 +303,24 @@ export function placesPlayerShip(){
 
 }
 
-function placesComputerShip(shipPosition){
-    let a = shipPosition % 10
-    let b = Math.floor(shipPosition/10)
-    let x = a + currentComputerShip.length
-    let y = b
-
-    currentComputerShip.position = [[a,b],[x,y]]
+function placesComputerShip(shipPosition, shipOrientation){
+    if (shipOrientation === "horizontal"){
+        let a = shipPosition % 10
+        let b = Math.floor(shipPosition/10)
+        let x = a + currentComputerShip.length
+        let y = b
+        currentComputerShip.position = [[a,b],[x,y]]
+    }
+    if (shipOrientation === "vertical"){
+        let a = shipPosition % 10
+        let b = Math.floor(shipPosition/10)
+        let x = a
+        let y = b + currentComputerShip.length - 1
+        currentComputerShip.position = [[a,b],[x,y]]
+    }
+    
+    
+   
     computerGameboard.placeShip(currentComputerShip)
 }
 

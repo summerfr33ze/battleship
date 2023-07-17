@@ -47,11 +47,17 @@ class Gameboard {
         if (this.grid[x][y] !== undefined){
 
         if (this === computerGameboard)
+            console.log(computerShipArray)
             computerShipArray.forEach(ship => {
+
+            
+                
                 const a = ship.position[0][0]
                 const b = ship.position[0][1]
                 const c = ship.position[1][0]
                 const d = ship.position[1][1]
+
+                
                 if (a === c){
                     if (x === a && y >= b && y <= d){
                         ship.hit()
